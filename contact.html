@@ -62,34 +62,47 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             max-width: 1000px;
-            width: 100%; 
+            width: 100%;
         }
 
         .team-members {
-            display: flex; 
-            justify-content: center; 
-            gap: 40px; 
-            margin-bottom: 100px; 
+            display: flex;
+            justify-content: center;
+            gap: 20px; 
         }
 
         .team-member {
+            flex-grow: 1; 
+            min-width: 180px; 
+            max-width: 300px; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 60px;
+            padding: 30px; 
             background-color: floralwhite;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
             .team-member img {
-                width: 80px;
-                height: 80px;
+                width: 90px; 
+                height: 90px; 
                 border-radius: 50%;
                 margin-bottom: 10px;
             }
 
-        
+        .details {
+            display: none; 
+            padding-top: 5px;
+            text-align: center;
+        }
+
+            .details p {
+                margin: 5px 0;
+            }
+
         footer {
             padding: 10px;
             text-align: center;
@@ -112,29 +125,46 @@
         </div>
     </div>
 
-    <header>
-    </header>
-
     <main>
         <!-- Team Section -->
         <h3>Meet Our Team</h3>
 
         <div class="team-members">
-            <div class="team-member">
+            <div class="team-member" onclick="toggleDetails('randel-details')">
                 <img src="randel.jpg" alt="Team Member 1">
                 <h4>Jon Randel Cortez</h4>
+                <div class="details" id="randel-details">
+                    <p>Contact Number: 975-223-0622</p>
+                    <p>Facebook: <a href="https://web.facebook.com/profile.php?id=100008177860166" target="_blank">Facebook Profile</a></p>
+                    <p>Email: <a href="mailto:jonrandelcortez@gmail.com">jonrandelcortez@gmail.com</a></p>
+                </div>
             </div>
-            <div class="team-member">
+            <div class="team-member" onclick="toggleDetails('abby-details')">
                 <img src="abby.jpg" alt="Team Member 2">
                 <h4>Abigail Gazzingan</h4>
+                <div class="details" id="abby-details">
+                    <p>Contact Number: 969-174-7548</p>
+                    <p>Facebook: <a href="https://web.facebook.com/bunnymyeon23" target="_blank">Facebook Profile</a></p>
+                    <p>Email: <a href="mailto:Abigailgazzingan1223@gmail.com">abigailgazzingan1223@gmail.com</a></p>
+                </div>
             </div>
-            <div class="team-member">
+            <div class="team-member" onclick="toggleDetails('exequiel-details')">
                 <img src="exequiel.jpg" alt="Team Member 3">
                 <h4>Exequiel Mamerto</h4>
+                <div class="details" id="exequiel-details">
+                    <p>Contact Number: 916-202-8652</p>
+                    <p>Facebook: <a href="https://web.facebook.com/jonjon.sandoval.1" target="_blank">Facebook Profile</a></p>
+                    <p>Email: <a href="mailto:exequielmamerto1@gmail.com">exequielmamerto1@gmail.com</a></p>
+                </div>
             </div>
-            <div class="team-member">
+            <div class="team-member" onclick="toggleDetails('cathrina-details')">
                 <img src="masmila.jpg" alt="Team Member 4">
                 <h4>Cathrina Masmila</h4>
+                <div class="details" id="cathrina-details">
+                    <p>Contact Number: 963-059-8686</p>
+                    <p>Facebook: <a href="https://web.facebook.com/cathrina.masmila.5/" target="_blank">Facebook Profile</a></p>
+                    <p>Email: <a href="mailto:masmilacathrina00@gmail.com">masmilacathrina00@gmail.com</a></p>
+                </div>
             </div>
         </div>
 
@@ -143,5 +173,16 @@
     <footer>
         <p>&copy; 2024 Kinderland. All rights reserved.</p>
     </footer>
+
+    <script>
+        function toggleDetails(memberId) {
+            const details = document.getElementById(memberId);
+            if (details.style.display === "none" || details.style.display === "") {
+                details.style.display = "block"; 
+            } else {
+                details.style.display = "none"; 
+            }
+        }
+    </script>
 </body>
 </html>

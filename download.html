@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinderland - Download</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
             box-sizing: border-box;
@@ -13,21 +13,21 @@
 
         body {
             margin: 0;
-            font-family: 'Poppins', Arial, Helvetica, sans-serif; 
-            background-color: #ffcccc; 
+            font-family: 'Poppins', Arial, Helvetica, sans-serif;
+            background-color: #ffcccc;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; 
+            min-height: 100vh;
         }
 
         .header {
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.8);
-            position: relative; 
-            z-index: 1; 
+            position: relative;
+            z-index: 1;
         }
 
             .header a {
@@ -40,8 +40,8 @@
             }
 
                 .header a.logo img {
-                    width: 250px; 
-                    height: auto; 
+                    width: 250px;
+                    height: auto;
                 }
 
                 .header a:hover {
@@ -55,41 +55,54 @@
                 }
 
         main {
-            text-align: center;
-            margin: 100px 10px; 
-            flex-grow: 1; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px;
+        }
+
+        .content {
+            text-align: left;
+            margin-right: 20px;
         }
 
         h2 {
-            text-align: center;
-            color: #333;
+            color: #cc0044; 
+            font-size: 48px; 
+            margin: 10px 0;
         }
 
         p {
-            color: #333; 
-            font-size: 18px; 
+            color: #333;
+            font-size: 18px;
+            margin: 5px 0;
         }
 
         .download-button {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 10px;
             padding: 10px 20px;
-            background-color: #1e90ff; 
+            background-color: #1e90ff;
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            font-size: 18px; 
-            transition: background-color 0.3s; 
+            font-size: 18px;
+            transition: background-color 0.3s;
         }
 
             .download-button:hover {
-                background-color: #0056b3; 
+                background-color: #0056b3;
             }
+
+        .logooo-image {
+            width: 400px;
+            height: auto;
+        }
 
         footer {
             padding: 10px;
             text-align: center;
-            color: black; 
+            color: black;
         }
     </style>
 </head>
@@ -108,9 +121,12 @@
     </div>
 
     <main>
-        <h2>GET the APP!</h2>
-        <p>Click below to download the Kinderland app.</p>
-        <a href="KinderlandAPK.apk" class="download-button">Download Now</a> 
+        <div class="content">
+            <h2>GET the APP!</h2>
+            <p>Click below to download the Kinderland app.</p>
+            <a href="KinderlandAPK.apk" class="download-button">Download Now</a>
+        </div>
+        <img src="logooo.png" alt="Logo" class="logooo-image">
     </main>
 
     <footer>
