@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Progress - Kinderland</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #4CAF50; /* Green background */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header a {
+            color: white; /* White text */
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .header a:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+
+        .header a.active {
+            background-color: lightblue; /* Active link color */
+        }
+
+        .header-right {
+            display: flex; /* Flexbox for right alignment */
+            gap: 10px; /* Space between links */
+        }
+
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2 style="color: white; margin: 0;">Kinderland</h2> <!-- Optional site title -->
+        <div class="header-right">
+            <a href="index.html">Home</a>
+            <a href="parent_dashboard.html">Parent Dashboard</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Your Child's Progress</h1>
+        <p>Details about your child's learning progress in various subjects are displayed below.</p>
+
+        <!-- Bar Chart for Child Progress -->
+        <div class="chart-container">
+            <canvas id="childProgressChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Kinderland. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample data for child progress in specific areas
+        const progressData = {
+            labels: ['Alphabets', 'Colors', 'Numbers', 'Shapes'],
+            progress: [10, 10, 7, 3] // Sample progress percentages for each quiz type
+        };
+
+        const ctx = document.getElementById('childProgressChart').getContext('2d');
+        const childProgressChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: progressData.labels,
+                datasets: [{
+                    label: 'Progress (%)',
+                    data: progressData.progress,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)', // Alphabets
+                        'rgba(54, 162, 235, 0.6)', // Colors
+                        'rgba(255, 206, 86, 0.6)', // Numbers
+                        'rgba(75, 192, 192, 0.6)'  // Shapes
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Progress (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Child Progress Overview'
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
