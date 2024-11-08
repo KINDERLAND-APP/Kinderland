@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results - Kinderland</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #4CAF50; /* Green background */
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .header a {
+                color: white; /* White text */
+                padding: 10px;
+                text-decoration: none;
+                font-size: 18px;
+            }
+
+                .header a:hover {
+                    background-color: #45a049; /* Darker green on hover */
+                }
+
+                .header a.active {
+                    background-color: lightblue; /* Active link color */
+                }
+
+        .header-right {
+            display: flex; /* Flexbox for right alignment */
+            gap: 10px; /* Space between links */
+        }
+
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 80%;
+            margin: auto;
+            margin-bottom: 40px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2 style="color: white; margin: 0;">Kinderland</h2> <!-- Optional site title -->
+        <div class="header-right">
+            <a href="index.html">Home</a>
+            <a href="parent_dashboard.html">Parent Dashboard</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Quiz Results</h1>
+        <p>Results of quizzes completed by your child are displayed below.</p>
+
+        <!-- Bar Chart for Alphabets -->
+        <div class="chart-container">
+            <canvas id="alphabetsChart"></canvas>
+        </div>
+
+        <!-- Bar Chart for Colors -->
+        <div class="chart-container">
+            <canvas id="colorsChart"></canvas>
+        </div>
+
+        <!-- Bar Chart for Numbers -->
+        <div class="chart-container">
+            <canvas id="numbersChart"></canvas>
+        </div>
+
+        <!-- Bar Chart for Shapes -->
+        <div class="chart-container">
+            <canvas id="shapesChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Kinderland. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample scores for each quiz topic
+        const quizScores = {
+            alphabets: [10, ,], // Scores for different attempts
+            colors: [10,],
+            numbers: [7,],
+            shapes: [3,]
+        };
+
+        const createChart = (ctx, label, data, backgroundColor) => {
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Attempt 1', 'Attempt 2', 'Attempt 3'], // Example attempts
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: backgroundColor,
+                        borderColor: backgroundColor.map(color => color.replace('0.6', '1')), // Darker border color
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Score (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: `${label} Quiz Results`
+                        }
+                    }
+                }
+            });
+        };
+
+        // Create charts for each topic with different colors
+        createChart(
+            document.getElementById('alphabetsChart').getContext('2d'),
+            'Alphabets',
+            quizScores.alphabets,
+            ['rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 0.6)'] // Red
+        );
+        createChart(
+            document.getElementById('colorsChart').getContext('2d'),
+            'Colors',
+            quizScores.colors,
+            ['rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 0.6)'] // Blue
+        );
+        createChart(
+            document.getElementById('numbersChart').getContext('2d'),
+            'Numbers',
+            quizScores.numbers,
+            ['rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 0.6)'] // Yellow
+        );
+        createChart(
+            document.getElementById('shapesChart').getContext('2d'),
+            'Shapes',
+            quizScores.shapes,
+            ['rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 0.6)'] // Teal
+        );
+    </script>
+
+</body>
+</html>

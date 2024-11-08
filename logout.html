@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out...</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .logout-message {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .logout-message h1 {
+                color: #ff4d4d;
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .logout-message p {
+                font-size: 18px;
+                color: #333;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="logout-message">
+        <h1>Logging Out...</h1>
+        <p>You will be redirected to the home page shortly.</p>
+    </div>
+
+    <script>
+        // Function to clear session or storage
+        function clearSessionData() {
+            // Clear sessionStorage (if used for tracking login state)
+            sessionStorage.removeItem('username'); // Replace with your key
+            localStorage.removeItem('username'); // If using localStorage
+
+            // Optionally, clear cookies if needed
+            document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+        }
+
+        // Automatically log out and redirect to the home page
+        function logoutAndRedirect() {
+            // Clear session data
+            clearSessionData();
+
+            // After a small delay, redirect to the home page (index.html)
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 2000); // Redirect after 2 seconds
+        }
+
+        // Call logout and redirect function when the page loads
+        logoutAndRedirect();
+    </script>
+
+</body>
+</html>

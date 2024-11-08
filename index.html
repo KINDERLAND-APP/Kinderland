@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kinderland - Home</title>
+
     <link rel="stylesheet" href="styles.css">
     <style>
         * {
@@ -17,6 +18,8 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .background {
@@ -53,6 +56,7 @@
             justify-content: space-between;
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.9);
+            width: 100%;
         }
 
             .header a {
@@ -80,10 +84,18 @@
                 }
 
         main {
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin-top: 50px;
             color: black;
             flex: 1;
+            padding: 0 20px;
+        }
+
+        .info-section {
+            text-align: left;
+            margin-right: 50px;
         }
 
         h1 {
@@ -107,7 +119,7 @@
 
         .description {
             text-align: left;
-            font-size: 24px;
+            font-size: 20px;
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
             line-height: 1.5;
@@ -120,6 +132,53 @@
             font-weight: bold;
         }
 
+        .login-container {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            width: 350px;
+            height: 350px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+            .login-container button {
+                font-size: 18px;
+                padding: 10px 20px;
+                margin: 10px;
+                background-color: #ffeb3b;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+
+                .login-container button:hover {
+                    background-color: #f8d12d;
+                }
+
+            .login-container input {
+                font-size: 16px;
+                padding: 10px;
+                margin: 10px;
+                width: 250px;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+
+        .error-message {
+            color: red;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
         footer {
             margin-top: 20px;
             padding: 10px;
@@ -129,7 +188,7 @@
     </style>
 </head>
 <body>
-  
+
     <div class="background"></div>
     <div class="overlay"></div>
 
@@ -147,16 +206,74 @@
     </div>
 
     <main>
-        <p class="tagline">SCAN and LEARN</p>
-        <h1 class="description">
-            Download the <span class="highlight">KINDERLAND APP</span> and unlock a world of learning!<br>
-            Scan to discover and interact with alphabets, numbers, shapes, and colors.<br>
-            Perfect for young explorers eager to learn through 3D Augmented Reality!
-        </h1>
+        <div class="info-section">
+            <p class="tagline">SCAN and LEARN</p>
+            <h1 class="description">
+                Download the <span class="highlight">KINDERLAND APP</span> and unlock a world of learning!<br>
+                Scan to discover and interact with alphabets, numbers, shapes, and colors.<br>
+                Perfect for young explorers eager to learn through 3D Augmented Reality!
+            </h1>
+        </div>
+
+        <div class="login-container" id="loginContainer">
+            <button onclick="showLoginForm('teacher')">I am a Teacher</button>
+            <button onclick="showLoginForm('parent')">I am a Parent</button>
+
+            <div id="teacherLogin" style="display:none;">
+                <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
+                <input type="password" id="teacherPassword" placeholder="Enter Password">
+                <button onclick="login('teacher')">Login as Teacher</button>
+                <p class="error-message" id="teacherErrorMessage" style="display:none;">Wrong username or password</p>
+            </div>
+
+            <div id="parentLogin" style="display:none;">
+                <input type="text" id="parentUsername" placeholder="Enter Parent Username">
+                <input type="password" id="parentPassword" placeholder="Enter Password">
+                <button onclick="login('parent')">Login as Parent</button>
+                <p class="error-message" id="parentErrorMessage" style="display:none;">Wrong username or password</p>
+            </div>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 Kinderland. All rights reserved.</p>
     </footer>
+
+    <script>
+        function showLoginForm(userType) {
+            // Hide both login forms first
+            document.getElementById('teacherLogin').style.display = 'none';
+            document.getElementById('parentLogin').style.display = 'none';
+            document.getElementById('teacherErrorMessage').style.display = 'none';
+            document.getElementById('parentErrorMessage').style.display = 'none';
+
+            if (userType === 'teacher') {
+                document.getElementById('teacherLogin').style.display = 'block';
+            } else if (userType === 'parent') {
+                document.getElementById('parentLogin').style.display = 'block';
+            }
+        }
+
+        function login(userType) {
+            if (userType === 'teacher') {
+                const username = document.getElementById('teacherUsername').value;
+                const password = document.getElementById('teacherPassword').value;
+                if (username === 'teacher_cath' && password === 'admin') {
+                    window.location.href = 'teacher_dashboard.html';
+                } else {
+                    document.getElementById('teacherErrorMessage').style.display = 'block';
+                }
+            } else if (userType === 'parent') {
+                const username = document.getElementById('parentUsername').value;
+                const password = document.getElementById('parentPassword').value;
+                if (username === 'Randel' && password === 'admin') {
+                    window.location.href = 'parent_dashboard.html';
+                } else {
+                    document.getElementById('parentErrorMessage').style.display = 'block';
+                }
+            }
+        }
+    </script>
+
 </body>
 </html>

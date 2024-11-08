@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Kinderland</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styling */
+        .header {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .header a {
+                color: black;
+                padding: 10px;
+                text-decoration: none;
+                font-size: 18px;
+            }
+
+                .header a:hover {
+                    background-color: #ddd;
+                }
+
+                .header a.active {
+                    background-color: lightblue;
+                }
+
+            .header .logo img {
+                width: 150px;
+                height: auto;
+            }
+
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Dashboard Sections Styling */
+        .dashboard-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .dashboard-box {
+            background-color: #ffeb3b;
+            padding: 20px;
+            margin: 20px;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+            .dashboard-box h3 {
+                margin-bottom: 20px;
+            }
+
+            .dashboard-box button {
+                background-color: #f8d12d;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s;
+            }
+
+                .dashboard-box button:hover {
+                    background-color: #ffeb3b;
+                }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <a href="index.html" class="logo">
+            <img src="kinder.png" alt="Kinderland Logo">
+        </a>
+        <div class="header-right">
+            <a href="index.html">Home</a>
+            <a href="teacher_dashboard.html" class="active">Teacher Dashboard</a>
+            <a href="logout.html">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Welcome to the Teacher Dashboard</h1>
+        <p>Manage student progress and track quiz reports.</p>
+
+        <!-- Dashboard Sections -->
+        <div class="dashboard-section">
+            <!-- Student Progress Section -->
+            <div class="dashboard-box">
+                <h3>Student Progress</h3>
+                <p>Track student progress across various learning modules.</p>
+                <button onclick="viewProgress()">View Student Progress</button>
+            </div>
+
+            <!-- Quiz Reports Section -->
+            <div class="dashboard-box">
+                <h3>Quiz Reports</h3>
+                <p>Analyze quiz results and view performance metrics.</p>
+                <button onclick="viewQuizReports()">View Quiz Reports</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 Kinderland. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function viewProgress() {
+            window.location.href = "student_progress.html";
+        }
+
+        function viewQuizReports() {
+            window.location.href = "quiz_reports.html";
+        }
+    </script>
+</body>
+</html>

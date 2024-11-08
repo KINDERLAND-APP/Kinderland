@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Reports</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 25%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 8px 0 0 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Student Profile Section */
+        .student-profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+            .student-profile img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                margin-bottom: 10px;
+            }
+
+            .student-profile h3 {
+                margin: 0;
+                font-size: 18px;
+                color: #ffdd57;
+            }
+
+        /* Select and Button Styling */
+        .sidebar select, .sidebar button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .sidebar button {
+            background-color: #ffdd57;
+            color: #333;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+            .sidebar button:hover {
+                background-color: #ffcc33;
+            }
+
+        /* Main Content Area */
+        .main-content {
+            width: 75%;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Chart Styling */
+        .chart-container {
+            margin: 20px 0;
+            width: 100%;
+            height: 400px;
+        }
+
+        /* Logout Message */
+        #logoutMessage {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar with Student Profile and Navigation -->
+        <div class="sidebar">
+            <!-- Student Profile -->
+            <div class="student-profile">
+                <img src="student-photo.jpg" alt="Student Photo" id="studentImage">
+                <h3 id="studentName">Student Name</h3>
+                <p id="studentGrade">Grade: Kindergarten</p>
+            </div>
+
+            <!-- Student Selection -->
+            <h2>Select Student</h2>
+            <select id="studentSelect" onchange="loadStudentData()">
+                <option value="">Choose Student</option>
+                <option value="student1">Student 1</option>
+                <option value="student2">Student 2</option>
+                <option value="student3">Student 3</option>
+            </select>
+
+            <!-- Navigation Buttons -->
+            <button onclick="goHome()">Home</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <!-- Main Content for Quiz Reports -->
+        <div class="main-content">
+            <h1 class="section-title">Quiz Reports</h1>
+
+            <!-- Table for Quiz Report History -->
+            <h2>Quiz Attempt History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Attempt Date</th>
+                        <th>Quiz Type</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="quizHistoryTable">
+                    <!-- Sample Rows (will be updated dynamically) -->
+                </tbody>
+            </table>
+
+            <!-- Line Chart for Quiz Progress -->
+            <h2>Progress Over Attempts</h2>
+            <div class="chart-container">
+                <canvas id="quizProgressChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Message -->
+    <div id="logoutMessage">Logging out...</div>
+
+    <script>
+        // Student data including quiz history and scores
+        const studentsData = {
+            student1: {
+                name: "Randel",
+                grade: "Kindergarten",
+                photo: "student1.jpg",
+                quizHistory: [
+                    { date: "2024-11-09", type: "Alphabet", score: "10%" },
+                    { date: "2024-11-09", type: "Shapes", score: "3%" },
+                    { date: "2024-11-09", type: "Colors", score: "10%" },
+                    { date: "2024-11-09", type: "Numbers", score: "7%" }
+                ],
+                scores: [65, 70, 75, 80, 85]
+            },
+            student2: {
+                name: "Exequiel",
+                grade: "1st Grade",
+                photo: "student2.jpg",
+                quizHistory: [
+                    { date: "2024-11-09", type: "Alphabet", score: "10%" },
+                    { date: "2024-11-09", type: "Shapes", score: "10%" },
+                    { date: "2024-11-09", type: "Colors", score: "10%" },
+                    { date: "2024-11-09", type: "Numbers", score: "10%" }
+                ],
+                scores: [70, 75, 80, 85, 90]
+            },
+            student3: {
+                name: "Alice Johnson",
+                grade: "2nd Grade",
+                photo: "student3.jpg",
+                quizHistory: [
+                    { date: "2024-11-03", type: "Alphabet", score: "95%" },
+                    { date: "2024-11-07", type: "Shapes", score: "85%" },
+                    { date: "2024-11-12", type: "Colors", score: "94%" },
+                    { date: "2024-11-14", type: "Numbers", score: "88%" }
+                ],
+                scores: [80, 82, 88, 90, 92]
+            }
+        };
+
+        // Load student data and update UI
+        function loadStudentData() {
+            const studentId = document.getElementById('studentSelect').value;
+            if (studentId) {
+                const student = studentsData[studentId];
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('studentGrade').textContent = "Grade: " + student.grade;
+                document.getElementById('studentImage').src = student.photo;
+
+                // Update quiz history table
+                const quizHistoryTable = document.getElementById('quizHistoryTable');
+                quizHistoryTable.innerHTML = ''; // Clear existing rows
+                student.quizHistory.forEach(attempt => {
+                    const row = `<tr>
+                                <td>${attempt.date}</td>
+                                <td>${attempt.type}</td>
+                                <td>${attempt.score}</td>
+                            </tr>`;
+                    quizHistoryTable.insertAdjacentHTML('beforeend', row);
+                });
+
+                // Load the chart with the student's scores
+                loadChart(student.scores);
+            }
+        }
+
+        function loadChart(scores) {
+            const ctx = document.getElementById('quizProgressChart').getContext('2d');
+            const labels = ["Attempt 1", "Attempt 2", "Attempt 3", "Attempt 4", "Attempt 5"];
+            const chartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Quiz Scores',
+                    data: scores,
+                    borderColor: 'blue',
+                    fill: false
+                }]
+            };
+
+            // Destroy previous chart if it exists
+            if (window.quizProgressChart) {
+                window.quizProgressChart.destroy();
+            }
+
+            // Create new chart
+            window.quizProgressChart = new Chart(ctx, {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: 'Quiz Progress Over Attempts' } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'Score (%)' } } }
+                }
+            });
+        }
+
+        function goHome() {
+            window.location.href = "index.html";
+        }
+
+        function logout() {
+            // Display logout message
+            const logoutMessage = document.getElementById('logoutMessage');
+            logoutMessage.style.display = 'block';
+            // Redirect to home after a brief delay
+            setTimeout(() => {
+                goHome();
+            }, 2000); // 2000 milliseconds = 2 seconds
+        }
+    </script>
+
+</body>
+</html>
