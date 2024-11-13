@@ -313,8 +313,10 @@
                     <span class="eye-icon" id="togglePassword2" onclick="togglePasswordVisibility('confirmPassword', 'togglePassword2')">👁️</span>
                 </div>
                 <p class="password-note">Password must contain at least one capital letter and one number.</p>
-                <button onclick="register()">Register</button>
-                <button onclick="showLoginForm()">BACK TO LOGIN</button> <!-- New button -->
+                <div class="button-container" style="display: flex; justify-content: space-between; width: 100%;">
+                    <button onclick="register()">Register</button>
+                    <button onclick="showLoginForm()">LOGIN</button>
+                </div>
                 <p class="error-message" id="registerErrorMessage" style="display:none;"></p>
                 <p class="success-message" id="registerSuccessMessage" style="display:none;">Registration successful!</p>
             </div>
