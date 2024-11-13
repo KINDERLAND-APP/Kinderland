@@ -141,7 +141,7 @@
             background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
             width: 350px;
-            height: 350px;
+            height: auto;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             margin-top: 50px;
             margin-left: auto;
@@ -167,10 +167,25 @@
                 font-size: 16px;
                 padding: 10px;
                 margin: 10px;
-                width: 250px;
+                width: 100%;
                 border-radius: 5px;
                 border: 1px solid #ccc;
             }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+        }
+
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #aaa;
+            font-size: 20px;
+        }
 
         .error-message {
             color: red;
@@ -179,11 +194,117 @@
             margin-top: 10px;
         }
 
+        .success-message {
+            color: green;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .password-note {
+            font-size: 12px;
+            color: gray;
+            margin-top: 5px;
+        }
+
         footer {
             margin-top: 20px;
             padding: 10px;
             text-align: center;
             color: white;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        /* Media Queries */
+        @media (max-width: 1080px) {
+            .header a {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .tagline {
+                font-size: 48px;
+            }
+
+            .description {
+                font-size: 18px;
+            }
+
+            .login-container {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .header a {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .tagline {
+                font-size: 36px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .login-container {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .header a {
+                font-size: 18px;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+
+            .tagline {
+                font-size: 50px;
+            }
+        }
+
+        @media (max-width: 1792px) {
+            .header a {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 38px;
+            }
+
+            .tagline {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 720px) and (min-width: 1612px) {
+            .header a {
+                font-size: 15px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .tagline {
+                font-size: 38px;
+            }
         }
     </style>
 </head>
@@ -216,21 +337,46 @@
         </div>
 
         <div class="login-container" id="loginContainer">
-            <button onclick="showLoginForm('teacher')">I am a Teacher</button>
-            <button onclick="showLoginForm('parent')">I am a Parent</button>
-
-            <div id="teacherLogin" style="display:none;">
-                <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
-                <input type="password" id="teacherPassword" placeholder="Enter Password">
-                <button onclick="login('teacher')">Login as Teacher</button>
-                <p class="error-message" id="teacherErrorMessage" style="display:none;">Wrong username or password</p>
+            <div>
+                <button onclick="showLoginForm('teacher')">I am a Teacher</button>
+                <div id="teacherLogin" style="display:none;">
+                    <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
+                    <input type="password" id="teacherPassword" placeholder="Enter Password">
+                    <div class="button-container">
+                        <button onclick="login('teacher')">LOGIN</button>
+                        <button onclick="showRegisterForm()">REGISTER</button>
+                    </div>
+                    <p class="error-message" id="teacherErrorMessage" style="display:none;">Wrong username or password</p>
+                </div>
             </div>
 
-            <div id="parentLogin" style="display:none;">
-                <input type="text" id="parentUsername" placeholder="Enter Parent Username">
-                <input type="password" id="parentPassword" placeholder="Enter Password">
-                <button onclick="login('parent')">Login as Parent</button>
-                <p class="error-message" id="parentErrorMessage" style="display:none;">Wrong username or password</p>
+            <div>
+                <button onclick="showLoginForm('parent')">I am a Parent</button>
+                <div id="parentLogin" style="display:none;">
+                    <input type="text" id="parentUsername" placeholder="Enter Parent Username">
+                    <input type="password" id="parentPassword" placeholder="Enter Password">
+                    <div class="button-container">
+                        <button onclick="login('parent')">LOGIN</button>
+                        <button onclick="showRegisterForm()">REGISTER</button>
+                    </div>
+                    <p class="error-message" id="parentErrorMessage" style="display:none;">Wrong username or password</p>
+                </div>
+            </div>
+
+            <div id="registerForm" style="display:none;">
+                <input type="text" id="registerUsername" placeholder="Enter Username" required>
+                <div class="input-group">
+                    <input type="password" id="registerPassword" placeholder="Enter Password" required>
+                    <span class="eye-icon" id="togglePassword1" onclick="togglePasswordVisibility('registerPassword', 'togglePassword1')">👁️</span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                    <span class="eye-icon" id="togglePassword2" onclick="togglePasswordVisibility('confirmPassword', 'togglePassword2')">👁️</span>
+                </div>
+                <p class="password-note">Password must contain at least one capital letter and one number.</p>
+                <button onclick="register()">Register</button>
+                <p class="error-message" id="registerErrorMessage" style="display:none;"></p>
+                <p class="success-message" id="registerSuccessMessage" style="display:none;">Registration successful!</p>
             </div>
         </div>
     </main>
@@ -240,10 +386,12 @@
     </footer>
 
     <script>
+        let registeredUsers = {};
+
         function showLoginForm(userType) {
-            // Hide both login forms first
             document.getElementById('teacherLogin').style.display = 'none';
             document.getElementById('parentLogin').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'none';
             document.getElementById('teacherErrorMessage').style.display = 'none';
             document.getElementById('parentErrorMessage').style.display = 'none';
 
@@ -254,24 +402,71 @@
             }
         }
 
-        function login(userType) {
-            if (userType === 'teacher') {
-                const username = document.getElementById('teacherUsername').value;
-                const password = document.getElementById('teacherPassword').value;
-                if (username === 'teacher_cath' && password === 'admin') {
-                    window.location.href = 'teacher_dashboard.html';
-                } else {
-                    document.getElementById('teacherErrorMessage').style.display = 'block';
-                }
-            } else if (userType === 'parent') {
-                const username = document.getElementById('parentUsername').value;
-                const password = document.getElementById('parentPassword').value;
-                if (username === 'Randel' && password === 'admin') {
-                    window.location.href = 'parent_dashboard.html';
-                } else {
-                    document.getElementById('parentErrorMessage').style.display = 'block';
-                }
+        function showRegisterForm() {
+            document.getElementById('teacherLogin').style.display = 'none';
+            document.getElementById('parentLogin').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('registerErrorMessage').style.display = 'none';
+            document.getElementById('registerSuccessMessage').style.display = 'none';
+        }
+
+        function togglePasswordVisibility(inputId, iconId) {
+            const passwordField = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.textContent = '👁️'; // Change to open eye
+            } else {
+                passwordField.type = 'password';
+                icon.textContent = '👁️'; // Change to closed eye
             }
+        }
+
+        function login(userType) {
+            const username = userType === 'teacher' ? document.getElementById('teacherUsername').value : document.getElementById('parentUsername').value;
+            const password = userType === 'teacher' ? document.getElementById('teacherPassword').value : document.getElementById('parentPassword').value;
+
+            if (registeredUsers[username] && registeredUsers[username].password === password) {
+                window.location.href = userType === 'teacher' ? 'teacher_dashboard.html' : 'parent_dashboard.html';
+            } else {
+                document.getElementById(userType === 'teacher' ? 'teacherErrorMessage' : 'parentErrorMessage').style.display = 'block';
+            }
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const registerErrorMessage = document.getElementById('registerErrorMessage');
+            const registerSuccessMessage = document.getElementById('registerSuccessMessage');
+
+            if (registeredUsers[username]) {
+                registerErrorMessage.textContent = 'Username already exists!';
+                registerErrorMessage.style.display = 'block';
+                return;
+            }
+
+            const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+            if (!password.match(passwordRegex)) {
+                registerErrorMessage.textContent = 'Password must contain at least one capital letter and one number.';
+                registerErrorMessage.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                registerErrorMessage.textContent = 'Passwords do not match!';
+                registerErrorMessage.style.display = 'block';
+                return;
+            }
+
+            registeredUsers[username] = { password: password };
+
+            registerSuccessMessage.style.display = 'block';
+            registerErrorMessage.style.display = 'none';
+
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
         }
     </script>
 
