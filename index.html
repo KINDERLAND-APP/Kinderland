@@ -55,7 +55,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 10px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: #d0dbdd;
             width: 100%;
         }
 
@@ -264,48 +264,6 @@
                 width: 95%;
             }
         }
-
-        @media (max-width: 1600px) {
-            .header a {
-                font-size: 18px;
-            }
-
-            h1 {
-                font-size: 40px;
-            }
-
-            .tagline {
-                font-size: 50px;
-            }
-        }
-
-        @media (max-width: 1792px) {
-            .header a {
-                font-size: 16px;
-            }
-
-            h1 {
-                font-size: 38px;
-            }
-
-            .tagline {
-                font-size: 48px;
-            }
-        }
-
-        @media (max-width: 720px) and (min-width: 1612px) {
-            .header a {
-                font-size: 15px;
-            }
-
-            h1 {
-                font-size: 30px;
-            }
-
-            .tagline {
-                font-size: 38px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -341,7 +299,10 @@
                 <button onclick="showLoginForm('teacher')">I am a Teacher</button>
                 <div id="teacherLogin" style="display:none;">
                     <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
-                    <input type="password" id="teacherPassword" placeholder="Enter Password">
+                    <div class="input-group">
+                        <input type="password" id="teacherPassword" placeholder="Enter Password">
+                        <span class="eye-icon" id="toggleTeacherPassword" onclick="togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword')">👁️</span>
+                    </div>
                     <div class="button-container">
                         <button onclick="login('teacher')">LOGIN</button>
                         <button onclick="showRegisterForm()">REGISTER</button>
@@ -354,7 +315,10 @@
                 <button onclick="showLoginForm('parent')">I am a Parent</button>
                 <div id="parentLogin" style="display:none;">
                     <input type="text" id="parentUsername" placeholder="Enter Parent Username">
-                    <input type="password" id="parentPassword" placeholder="Enter Password">
+                    <div class="input-group">
+                        <input type="password" id="parentPassword" placeholder="Enter Password">
+                        <span class="eye-icon" id="toggleParentPassword" onclick="togglePasswordVisibility('parentPassword', 'toggleParentPassword')">👁️</span>
+                    </div>
                     <div class="button-container">
                         <button onclick="login('parent')">LOGIN</button>
                         <button onclick="showRegisterForm()">REGISTER</button>
@@ -387,6 +351,20 @@
 
     <script>
         let registeredUsers = {};
+        let parents = {};
+
+        // Initialize users and parents from localStorage
+        function initializeUsers() {
+            const users = localStorage.getItem('registeredUsers');
+            const parentData = localStorage.getItem('parents');
+
+            if (users) {
+                registeredUsers = JSON.parse(users);
+            }
+            if (parentData) {
+                parents = JSON.parse(parentData);
+            }
+        }
 
         function showLoginForm(userType) {
             document.getElementById('teacherLogin').style.display = 'none';
@@ -426,7 +404,10 @@
             const username = userType === 'teacher' ? document.getElementById('teacherUsername').value : document.getElementById('parentUsername').value;
             const password = userType === 'teacher' ? document.getElementById('teacherPassword').value : document.getElementById('parentPassword').value;
 
-            if (registeredUsers[username] && registeredUsers[username].password === password) {
+            if (userType === 'parent' && parents[username] && parents[username].password === password) {
+                // Redirect to the parent dashboard with child's progress
+                window.location.href = 'parent_dashboard.html'; // Change to the appropriate URL
+            } else if (registeredUsers[username] && registeredUsers[username].password === password) {
                 window.location.href = userType === 'teacher' ? 'teacher_dashboard.html' : 'parent_dashboard.html';
             } else {
                 document.getElementById(userType === 'teacher' ? 'teacherErrorMessage' : 'parentErrorMessage').style.display = 'block';
@@ -440,12 +421,14 @@
             const registerErrorMessage = document.getElementById('registerErrorMessage');
             const registerSuccessMessage = document.getElementById('registerSuccessMessage');
 
-            if (registeredUsers[username]) {
+            // Validate username
+            if (registeredUsers[username] || parents[username]) {
                 registerErrorMessage.textContent = 'Username already exists!';
                 registerErrorMessage.style.display = 'block';
                 return;
             }
 
+            // Validate password
             const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
             if (!password.match(passwordRegex)) {
                 registerErrorMessage.textContent = 'Password must contain at least one capital letter and one number.';
@@ -453,13 +436,16 @@
                 return;
             }
 
+            // Confirm password
             if (password !== confirmPassword) {
                 registerErrorMessage.textContent = 'Passwords do not match!';
                 registerErrorMessage.style.display = 'block';
                 return;
             }
 
-            registeredUsers[username] = { password: password };
+            // Save user data
+            parents[username] = { password: password }; // Storing parent data
+            localStorage.setItem('parents', JSON.stringify(parents));
 
             registerSuccessMessage.style.display = 'block';
             registerErrorMessage.style.display = 'none';
@@ -468,6 +454,11 @@
             document.getElementById('registerPassword').value = '';
             document.getElementById('confirmPassword').value = '';
         }
+
+        // Initialize users on page load
+        window.onload = function () {
+            initializeUsers();
+        };
     </script>
 
 </body>

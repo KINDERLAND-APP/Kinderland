@@ -7,10 +7,50 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: 'Verdana', sans-serif; /* Changed font to Verdana for better visibility */
             margin: 0;
             padding: 0;
+            color: black; /* Set text color to black */
         }
+
+        /* Navigation Bar Styling */
+        .nav-bar {
+            background-color: #ADD8E6; /* Light blue color */
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between; /* To align content to both left and right */
+            align-items: center;
+            padding: 10px;
+        }
+
+            /* Left side logo */
+            .nav-bar .logo img {
+                width: 100px; /* Adjust logo size */
+                height: auto;
+            }
+
+            /* Right side navigation links */
+            .nav-bar .nav-links {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .nav-bar a {
+                color: black; /* Set text color to black for the links */
+                padding: 14px 20px;
+                text-decoration: none;
+                text-align: center;
+                font-size: 18px;
+            }
+
+                .nav-bar a:hover {
+                    background-color: #ddd;
+                    color: black;
+                }
+
+                .nav-bar a.active {
+                    background-color: lightblue;
+                }
 
         /* Header Styling */
         .header {
@@ -94,12 +134,17 @@
 </head>
 <body>
 
-    <!-- Header Section -->
-    <div class="header">
-        <a href="index.html" class="logo">
-            <img src="kinder.png" alt="Kinderland Logo">
-        </a>
-        <div class="header-right">
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <!-- Left side logo -->
+        <div class="logo">
+            <a href="index.html">
+                <img src="kinder.png" alt="Kinderland Logo">
+            </a>
+        </div>
+
+        <!-- Right side navigation links -->
+        <div class="nav-links">
             <a href="index.html">Home</a>
             <a href="teacher_dashboard.html" class="active">Teacher Dashboard</a>
             <a href="logout.html">Logout</a>
@@ -109,38 +154,35 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1>Welcome to the Teacher Dashboard</h1>
-        <p>Manage student progress and track quiz reports.</p>
+        <p>Manage student progress and track leaderboard rankings.</p>
 
         <!-- Dashboard Sections -->
         <div class="dashboard-section">
-            <!-- Student Progress Section -->
+            <!-- View Student List Section -->
             <div class="dashboard-box">
-                <h3>Student Progress</h3>
-                <p>Track student progress across various learning modules.</p>
-                <button onclick="viewProgress()">View Student Progress</button>
+                <h3>View Student List</h3>
+                <p>Check the list of all students enrolled.</p>
+                <button onclick="viewStudentList()">View Student List</button>
             </div>
 
-            <!-- Quiz Reports Section -->
+            <!-- Leaderboard Section -->
             <div class="dashboard-box">
-                <h3>Quiz Reports</h3>
-                <p>Analyze quiz results and view performance metrics.</p>
-                <button onclick="viewQuizReports()">View Quiz Reports</button>
+                <h3>Leaderboard</h3>
+                <p>View the leaderboard based on student performance.</p>
+                <button onclick="viewLeaderboard()">View Leaderboard</button>
             </div>
         </div>
     </div>
 
     <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2024 Kinderland. All rights reserved.</p>
-    </footer>
-
+    
     <script>
-        function viewProgress() {
-            window.location.href = "student_progress.html";
+        function viewStudentList() {
+            window.location.href = "student_list.html"; // Redirect to the student list page
         }
 
-        function viewQuizReports() {
-            window.location.href = "quiz_reports.html";
+        function viewLeaderboard() {
+            window.location.href = "ranking.html"; // Redirect to the ranking page
         }
     </script>
 </body>

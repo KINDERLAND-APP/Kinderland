@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - Kinderland</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif; /* Livelier font family */
+            margin: 0;
+            padding: 0;
+            color: #333; /* Dark gray color for better readability */
+            background-color: #f7f7f7; /* Light background color for a fresh feel */
+            text-transform: uppercase; /* Capitalizes all text */
+        }
+
+        /* Navigation Bar Styling */
+        .nav-bar {
+            background-color: #ADD8E6; /* Light blue color */
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        }
+
+            .nav-bar .logo img {
+                width: 120px;
+                height: auto;
+                transition: transform 0.3s ease;
+            }
+
+                .nav-bar .logo img:hover {
+                    transform: scale(1.1); /* Slight hover effect on the logo */
+                }
+
+            .nav-bar .nav-links {
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .nav-bar a {
+                color: black;
+                padding: 14px 20px;
+                text-decoration: none;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                letter-spacing: 1px;
+                transition: color 0.3s ease, background-color 0.3s ease;
+            }
+
+                .nav-bar a:hover {
+                    background-color: #ddd;
+                    color: #1E90FF; /* Change to a lively blue when hovered */
+                }
+
+        /* Leaderboard Table Styling */
+        .leaderboard-container {
+            width: 80%;
+            margin: 30px auto;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Added shadow for a more elevated feel */
+            padding: 20px;
+            background-color: #ffffff; /* White background for the table */
+            border-radius: 8px;
+        }
+
+        .leaderboard {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            font-family: 'Arial', sans-serif;
+        }
+
+            .leaderboard th, .leaderboard td {
+                padding: 15px;
+                text-align: center;
+                border: 1px solid #ddd;
+                font-size: 18px; /* Larger text for readability */
+            }
+
+            .leaderboard th {
+                background-color: #ADD8E6;
+                color: #333;
+                text-transform: uppercase; /* Make header text all uppercase */
+                letter-spacing: 2px;
+            }
+
+            .leaderboard tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .leaderboard tr:hover {
+                background-color: #f1f1f1;
+            }
+
+            .leaderboard td {
+                font-size: 16px;
+            }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .trophy {
+            width: 60px; /* Increased size of trophy for better visibility */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <div class="logo">
+            <a href="index.html">
+                <img src="kinder.png" alt="Kinderland Logo">
+            </a>
+        </div>
+        <div class="nav-links">
+            <a href="logout.html">LOGOUT</a> <!-- Capitalized text -->
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <center>
+            <h1 style="font-size: 36px; color: #1E90FF;">STUDENT LEADERBOARD</h1> <!-- Capitalized -->
+            <p style="font-size: 18px; color: #666;">HERE IS THE LEADERBOARD BASED ON STUDENT PERFORMANCE:</p> <!-- Capitalized -->
+        </center>
+
+        <!-- Leaderboard Table Container -->
+        <div class="leaderboard-container">
+            <!-- Leaderboard Table -->
+            <table class="leaderboard" id="leaderboard">
+                <thead>
+                    <tr>
+                        <th>RANK</th> <!-- Capitalized -->
+                        <th>STUDENT NAME</th> <!-- Capitalized -->
+                        <th>SCORE</th> <!-- Capitalized -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic student entries will be added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function renderLeaderboard() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const tbody = document.querySelector('#leaderboard tbody');
+            tbody.innerHTML = '';
+
+            // Sort students by score in descending order
+            students.sort((a, b) => b.score - a.score);
+
+            // Assign ranks and populate the table
+            students.forEach((student, index) => {
+                const row = document.createElement('tr');
+
+                let trophy = '';
+                if (index === 0) {
+                    trophy = '<img src="1st-prize.png" alt="Gold Trophy" class="trophy">';
+                } else if (index === 1) {
+                    trophy = '<img src="2nd-place.png" alt="Silver Trophy" class="trophy">';
+                } else if (index === 2) {
+                    trophy = '<img src="3rd-place.png" alt="Bronze Trophy" class="trophy">';
+                }
+
+                row.innerHTML = `
+                                    <td>${trophy || index + 1}</td>
+                                    <td>${student.firstName} ${student.lastName}</td>
+                                    <td>${student.score || 0}</td>
+                                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Render leaderboard when the window loads
+        window.onload = renderLeaderboard;
+    </script>
+</body>
+</html>
