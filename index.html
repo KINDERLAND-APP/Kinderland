@@ -214,12 +214,6 @@
             color: white;
         }
 
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-
         /* Media Queries */
         @media (max-width: 1080px) {
             .header a {
@@ -295,36 +289,17 @@
         </div>
 
         <div class="login-container" id="loginContainer">
-            <div>
-                <button onclick="showLoginForm('teacher')">I am a Teacher</button>
-                <div id="teacherLogin" style="display:none;">
-                    <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
-                    <div class="input-group">
-                        <input type="password" id="teacherPassword" placeholder="Enter Password">
-                        <span class="eye-icon" id="toggleTeacherPassword" onclick="togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword')">👁️</span>
-                    </div>
-                    <div class="button-container">
-                        <button onclick="login('teacher')">LOGIN</button>
-                        <button onclick="showRegisterForm()">REGISTER</button>
-                    </div>
-                    <p class="error-message" id="teacherErrorMessage" style="display:none;">Wrong username or password</p>
+            <div id="teacherLogin">
+                <input type="text" id="teacherUsername" placeholder="Enter Teacher Username">
+                <div class="input-group">
+                    <input type="password" id="teacherPassword" placeholder="Enter Password">
+                    <span class="eye-icon" id="toggleTeacherPassword" onclick="togglePasswordVisibility('teacherPassword', 'toggleTeacherPassword')">👁️</span>
                 </div>
-            </div>
-
-            <div>
-                <button onclick="showLoginForm('parent')">I am a Parent</button>
-                <div id="parentLogin" style="display:none;">
-                    <input type="text" id="parentUsername" placeholder="Enter Parent Username">
-                    <div class="input-group">
-                        <input type="password" id="parentPassword" placeholder="Enter Password">
-                        <span class="eye-icon" id="toggleParentPassword" onclick="togglePasswordVisibility('parentPassword', 'toggleParentPassword')">👁️</span>
-                    </div>
-                    <div class="button-container">
-                        <button onclick="login('parent')">LOGIN</button>
-                        <button onclick="showRegisterForm()">REGISTER</button>
-                    </div>
-                    <p class="error-message" id="parentErrorMessage" style="display:none;">Wrong username or password</p>
+                <div class="button-container">
+                    <button onclick="login()">LOGIN</button>
+                    <button onclick="showRegisterForm()">REGISTER</button>
                 </div>
+                <p class="error-message" id="teacherErrorMessage" style="display:none;">Wrong username or password</p>
             </div>
 
             <div id="registerForm" style="display:none;">
@@ -339,6 +314,7 @@
                 </div>
                 <p class="password-note">Password must contain at least one capital letter and one number.</p>
                 <button onclick="register()">Register</button>
+                <button onclick="showLoginForm()">BACK TO LOGIN</button> <!-- New button -->
                 <p class="error-message" id="registerErrorMessage" style="display:none;"></p>
                 <p class="success-message" id="registerSuccessMessage" style="display:none;">Registration successful!</p>
             </div>
@@ -351,41 +327,24 @@
 
     <script>
         let registeredUsers = {};
-        let parents = {};
 
-        // Initialize users and parents from localStorage
+        // Initialize users from localStorage
         function initializeUsers() {
             const users = localStorage.getItem('registeredUsers');
-            const parentData = localStorage.getItem('parents');
-
             if (users) {
                 registeredUsers = JSON.parse(users);
-            }
-            if (parentData) {
-                parents = JSON.parse(parentData);
-            }
-        }
-
-        function showLoginForm(userType) {
-            document.getElementById('teacherLogin').style.display = 'none';
-            document.getElementById('parentLogin').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('teacherErrorMessage').style.display = 'none';
-            document.getElementById('parentErrorMessage').style.display = 'none';
-
-            if (userType === 'teacher') {
-                document.getElementById('teacherLogin').style.display = 'block';
-            } else if (userType === 'parent') {
-                document.getElementById('parentLogin').style.display = 'block';
             }
         }
 
         function showRegisterForm() {
-            document.getElementById('teacherLogin').style.display = 'none';
-            document.getElementById('parentLogin').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-            document.getElementById('registerErrorMessage').style.display = 'none';
-            document.getElementById('registerSuccessMessage').style.display = 'none';
+            document.getElementById('teacherLogin').style.display = 'none'; // Hide login form
+            document.getElementById('registerForm').style.display = 'block'; // Show registration form
+            document.getElementById('teacherErrorMessage').style.display = 'none'; // Hide any error messages
+        }
+
+        function showLoginForm() {
+            document.getElementById('registerForm').style.display = 'none'; // Hide registration form
+            document.getElementById('teacherLogin').style.display = 'block'; // Show login form
         }
 
         function togglePasswordVisibility(inputId, iconId) {
@@ -400,17 +359,14 @@
             }
         }
 
-        function login(userType) {
-            const username = userType === 'teacher' ? document.getElementById('teacherUsername').value : document.getElementById('parentUsername').value;
-            const password = userType === 'teacher' ? document.getElementById('teacherPassword').value : document.getElementById('parentPassword').value;
+        function login() {
+            const username = document.getElementById('teacherUsername').value;
+            const password = document.getElementById('teacherPassword').value;
 
-            if (userType === 'parent' && parents[username] && parents[username].password === password) {
-                // Redirect to the parent dashboard with child's progress
-                window.location.href = 'parent_dashboard.html'; // Change to the appropriate URL
-            } else if (registeredUsers[username] && registeredUsers[username].password === password) {
-                window.location.href = userType === 'teacher' ? 'teacher_dashboard.html' : 'parent_dashboard.html';
+            if (registeredUsers[username] && registeredUsers[username].password === password) {
+                window.location.href = 'teacher_dashboard.html';
             } else {
-                document.getElementById(userType === 'teacher' ? 'teacherErrorMessage' : 'parentErrorMessage').style.display = 'block';
+                document.getElementById('teacherErrorMessage').style.display = 'block';
             }
         }
 
@@ -422,7 +378,7 @@
             const registerSuccessMessage = document.getElementById('registerSuccessMessage');
 
             // Validate username
-            if (registeredUsers[username] || parents[username]) {
+            if (registeredUsers[username]) {
                 registerErrorMessage.textContent = 'Username already exists!';
                 registerErrorMessage.style.display = 'block';
                 return;
@@ -444,8 +400,8 @@
             }
 
             // Save user data
-            parents[username] = { password: password }; // Storing parent data
-            localStorage.setItem('parents', JSON.stringify(parents));
+            registeredUsers[username] = { password: password }; // Storing teacher data
+            localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
 
             registerSuccessMessage.style.display = 'block';
             registerErrorMessage.style.display = 'none';
